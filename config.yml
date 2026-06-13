@@ -1,0 +1,25 @@
+backend:
+  name: github
+  repo: arighmt67-bit/arighmt67-bit.github.io
+  branch: main
+
+media_folder: "assets/images"
+public_folder: "/assets/images"
+
+collections:
+  - name: "settings"
+    label: "Site Settings"
+    files:
+      - label: "Profile"
+        name: "profile"
+        file: "_data/profile.json"
+        fields:
+          - { label: "Name", name: "name", widget: "string", default: "Ari Rahmat" }
+          - { label: "Role / Title", name: "role", widget: "string", default: "Software Developer" }
+          - { label: "Bio", name: "bio", widget: "text" }
+          - { label: "Email", name: "email", widget: "string" }
+          - { label: "GitHub Username", name: "github", widget: "string" }
+          - label: "Skills"
+            name: "skills"
+            widget: "list"
+            field: { label: "Skill", name: "skill", widget: "string" }
