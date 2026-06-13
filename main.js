@@ -75,4 +75,217 @@ function escapeHtml(str) {
     .replace(/"/g, '&quot;');
 }
 
+const experienceData = {
+  1: {
+    title: 'Fencer',
+    org: 'Tangerang Fencing Association (IKASI Kota Tangerang)',
+    date: '2013–2018',
+    items: [
+      'Competed in regional fencing tournaments, multiple podium finishes.',
+      'Reached Top 32 at 2015 National Championship.',
+      'Learned discipline, perseverance, focus under pressure.',
+    ],
+  },
+  2: {
+    title: 'UI/UX Design Awardee',
+    org: 'Binar Academy Scholarship Batch 2',
+    date: 'Dec 2018–Feb 2019',
+    items: [
+      'Selected as 1 of 17 participants.',
+      'Contributed to "Let\'s Talk" app connecting people seeking emotional support with listeners.',
+      'Responsible for user research and UI/UX design in Figma.',
+    ],
+  },
+  3: {
+    title: 'Barista (Part-time)',
+    org: 'Kopilim',
+    date: 'Feb 2018–Jan 2021',
+    items: [
+      'Worked part-time while studying full-time.',
+      'Enhanced communication and hospitality skills.',
+      'Developed discipline, adaptability, time management.',
+    ],
+  },
+  4: {
+    title: 'Activation Specialist (Internship)',
+    org: 'Mekari',
+    date: 'Dec 2021–June 2022',
+    items: [
+      'Supported customer onboarding and product adoption.',
+      'Collaborated with diverse customers.',
+      'Strengthened communication, problem-solving, customer experience skills.',
+    ],
+  },
+  5: {
+    title: 'Tech Support Officer (Full-time)',
+    org: 'Sekolah.mu',
+    date: 'Oct 2025–Present',
+    items: [
+      'Provide technical support, resolve IT issues, manage system access.',
+      'Prepare devices for onboarding.',
+      'Strengthened analytical thinking and troubleshooting skills.',
+    ],
+  },
+  6: {
+    title: 'AWS re/Start Program',
+    org: 'Orbit Future Academy',
+    date: 'March–June 2026',
+    items: [
+      'Completed intensive cloud engineering program (AWS, Linux, Python, networking, security, DevOps).',
+      'Hands-on cloud infrastructure experience.',
+      'Strengthened problem-solving and sysadmin skills.',
+    ],
+  },
+};
+
+const modalBackdrop = document.getElementById('experience-modal');
+const modalTitle = document.getElementById('experience-modal-title');
+const modalOrg = document.getElementById('experience-modal-org');
+const modalDate = document.getElementById('experience-modal-date');
+const modalList = document.getElementById('experience-modal-list');
+const modalClose = document.getElementById('experience-modal-close');
+
+function openExperienceModal(id) {
+  const experience = experienceData[id];
+  if (!experience) return;
+
+  modalTitle.textContent = experience.title;
+  modalOrg.textContent = experience.org;
+  modalDate.textContent = experience.date;
+  modalList.innerHTML = experience.items
+    .map(item => `<li>${escapeHtml(item)}</li>`)
+    .join('');
+
+  modalBackdrop.classList.add('active');
+  modalBackdrop.setAttribute('aria-hidden', 'false');
+}
+
+function closeExperienceModal() {
+  modalBackdrop.classList.remove('active');
+  modalBackdrop.setAttribute('aria-hidden', 'true');
+}
+
+modalClose.addEventListener('click', closeExperienceModal);
+modalBackdrop.addEventListener('click', event => {
+  if (event.target === modalBackdrop) {
+    closeExperienceModal();
+  }
+});
+
+document.addEventListener('keydown', event => {
+  if (event.key === 'Escape' && modalBackdrop.classList.contains('active')) {
+    closeExperienceModal();
+  }
+});
+
+document.querySelectorAll('.experience-btn').forEach(button => {
+  button.addEventListener('click', () => {
+    openExperienceModal(button.dataset.experienceId);
+  });
+});
+
+const blogCarousel = document.querySelector('.blog-carousel');
+const carouselTrack = document.querySelector('.blog-carousel-track');
+const blogDots = document.getElementById('blog-carousel-dots');
+const prevButton = document.querySelector('.carousel-prev');
+const nextButton = document.querySelector('.carousel-next');
+const blogSlides = Array.from(document.querySelectorAll('.blog-card'));
+let currentSlide = 0;
+
+function updateBlogCarousel() {
+  const offset = currentSlide * -100;
+  carouselTrack.style.transform = `translateX(${offset}%)`;
+  blogDots.querySelectorAll('.carousel-dot').forEach((dot, index) => {
+    dot.classList.toggle('active', index === currentSlide);
+  });
+  prevButton.disabled = currentSlide === 0;
+  nextButton.disabled = currentSlide === blogSlides.length - 1;
+}
+
+function createBlogDots() {
+  blogSlides.forEach((_, index) => {
+    const dot = document.createElement('button');
+    dot.type = 'button';
+    dot.className = 'carousel-dot';
+    dot.setAttribute('aria-label', `Show slide ${index + 1}`);
+    dot.addEventListener('click', () => {
+      currentSlide = index;
+      updateBlogCarousel();
+    });
+    blogDots.appendChild(dot);
+  });
+}
+
+prevButton.addEventListener('click', () => {
+  if (currentSlide > 0) {
+    currentSlide -= 1;
+    updateBlogCarousel();
+  }
+});
+
+nextButton.addEventListener('click', () => {
+  if (currentSlide < blogSlides.length - 1) {
+    currentSlide += 1;
+    updateBlogCarousel();
+  }
+});
+
+createBlogDots();
+updateBlogCarousel();
+
+const navToggle = document.getElementById('nav-toggle');
+const navLinks = document.getElementById('nav-links');
+
+navToggle.addEventListener('click', () => {
+  navLinks.classList.toggle('active');
+});
+
+const navLinkItems = document.querySelectorAll('.nav-links a');
+
+document.querySelectorAll('.nav-links a').forEach(link => {
+  link.addEventListener('click', () => {
+    navLinks.classList.remove('active');
+  });
+});
+
+const sectionObserver = new IntersectionObserver(
+  entries => {
+    entries.forEach(entry => {
+      const sectionId = entry.target.id;
+      const matchingLink = Array.from(navLinkItems).find(link => link.getAttribute('href') === `#${sectionId}`);
+      if (!matchingLink) return;
+
+      if (entry.isIntersecting) {
+        matchingLink.classList.add('active');
+      } else {
+        matchingLink.classList.remove('active');
+      }
+    });
+  },
+  { threshold: 0.4 }
+);
+
+const observedSections = [
+  document.querySelector('#about-full'),
+  document.querySelector('#skills'),
+  document.querySelector('#experiences'),
+  document.querySelector('#portfolio'),
+  document.querySelector('#blogs')
+].filter(Boolean);
+observedSections.forEach(section => sectionObserver.observe(section));
+
+const scrollTopBtn = document.getElementById('scroll-top-btn');
+
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 300) {
+    scrollTopBtn.classList.add('visible');
+  } else {
+    scrollTopBtn.classList.remove('visible');
+  }
+});
+
+scrollTopBtn.addEventListener('click', () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
 loadProjects();
