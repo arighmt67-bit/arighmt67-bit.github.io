@@ -30,9 +30,9 @@ async function loadProjects() {
     if (!res.ok) throw new Error('GitHub API error');
     const repos = await res.json();
 
-    const filtered = repos.filter(r => !r.fork).slice(0, 9);
+    const filtered = repos.filter(r => !r.fork && r.name !== 'ios-book-discovery-app').slice(0, 9);
 
-    grid.innerHTML = '';
+    grid.innerHTML = ''; 
 
     if (filtered.length === 0) {
       grid.innerHTML = '<p style="color:var(--text-muted);font-size:0.875rem">No public repositories found.</p>';
@@ -95,6 +95,7 @@ const experienceData = {
       'Contributed to "Let\'s Talk" app connecting people seeking emotional support with listeners.',
       'Responsible for user research and UI/UX design in Figma.',
     ],
+    viewLink: 'https://drive.google.com/file/d/1tS6bRfcnq8LwS0oOmg96kk3csSVon7ER/view?usp=drive_link',
   },
   3: {
     title: 'Barista (Part-time)',
@@ -155,6 +156,21 @@ function openExperienceModal(id) {
   modalList.innerHTML = experience.items
     .map(item => `<li>${escapeHtml(item)}</li>`)
     .join('');
+  
+  // Remove existing view button if any
+  const existingViewBtn = document.querySelector('.modal-view-btn');
+  if (existingViewBtn) existingViewBtn.remove();
+
+  // Add view button if viewLink exists
+  if (experience.viewLink) {
+    const viewBtn = document.createElement('a');
+    viewBtn.href = experience.viewLink;
+    viewBtn.target = '_blank';
+    viewBtn.rel = 'noopener';
+    viewBtn.className = 'btn btn-primary modal-view-btn';
+    viewBtn.textContent = 'View ↗';
+    modalList.parentElement.appendChild(viewBtn);
+  }
 
   modalBackdrop.classList.add('active');
   modalBackdrop.setAttribute('aria-hidden', 'false');
@@ -191,6 +207,8 @@ const prevButton = document.querySelector('.carousel-prev');
 const nextButton = document.querySelector('.carousel-next');
 const blogSlides = Array.from(document.querySelectorAll('.blog-card'));
 let currentSlide = 0;
+let carouselInterval = null;
+const CAROUSEL_INTERVAL_MS = 4000;
 
 function updateBlogCarousel() {
   const offset = currentSlide * -100;
@@ -216,6 +234,21 @@ function createBlogDots() {
   });
 }
 
+function startCarouselAutoSlide() {
+  stopCarouselAutoSlide();
+  carouselInterval = setInterval(() => {
+    currentSlide = (currentSlide + 1) % blogSlides.length;
+    updateBlogCarousel();
+  }, CAROUSEL_INTERVAL_MS);
+}
+
+function stopCarouselAutoSlide() {
+  if (carouselInterval) {
+    clearInterval(carouselInterval);
+    carouselInterval = null;
+  }
+}
+
 prevButton.addEventListener('click', () => {
   if (currentSlide > 0) {
     currentSlide -= 1;
@@ -230,8 +263,12 @@ nextButton.addEventListener('click', () => {
   }
 });
 
+blogCarousel.addEventListener('mouseenter', stopCarouselAutoSlide);
+blogCarousel.addEventListener('mouseleave', startCarouselAutoSlide);
+
 createBlogDots();
 updateBlogCarousel();
+startCarouselAutoSlide();
 
 const navToggle = document.getElementById('nav-toggle');
 const navLinks = document.getElementById('nav-links');
@@ -247,6 +284,24 @@ document.querySelectorAll('.nav-links a').forEach(link => {
     navLinks.classList.remove('active');
   });
 });
+
+const formSubmit = document.getElementById('form-submit');
+if (formSubmit) {
+  formSubmit.addEventListener('click', () => {
+    const name = document.getElementById('form-name').value.trim();
+    const email = document.getElementById('form-email').value.trim();
+    const message = document.getElementById('form-message').value.trim();
+    if (!name || !email || !message) {
+      alert('Please fill in all fields.');
+      return;
+    }
+    window.location.href =
+      'mailto:arirahmatromadhon@gmail.com' +
+      '?subject=Portfolio Contact from ' + encodeURIComponent(name) +
+      '&body=' + encodeURIComponent(message) +
+      '%0A%0AFrom: ' + encodeURIComponent(email);
+  });
+}
 
 const sectionObserver = new IntersectionObserver(
   entries => {
@@ -270,7 +325,8 @@ const observedSections = [
   document.querySelector('#skills'),
   document.querySelector('#experiences'),
   document.querySelector('#portfolio'),
-  document.querySelector('#blogs')
+  document.querySelector('#blogs'),
+  document.querySelector('#contact-me')
 ].filter(Boolean);
 observedSections.forEach(section => sectionObserver.observe(section));
 
