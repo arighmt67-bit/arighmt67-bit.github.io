@@ -3,27 +3,6 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>arighmt67-bit — Portfolio</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-  <header class="site-header">
-    <nav class="nav-inner">
-      <span class="nav-logo">ari<span class="accent">.</span></span>
-      <ul class="nav-links">
-        <li><a href="#about">About</a></li>
-        <li><a href="#projects">Projects</a></li>
-        <li><a
-
-cat > ~/Desktop/arighmt67-bit.github.io/index.html << 'EOF'
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>arighmt67-bit — Modern Portfolio</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -81,21 +60,24 @@ cat > ~/Desktop/arighmt67-bit.github.io/index.html << 'EOF'
 
     <!-- ABOUT ME SECTION -->
     <section class="about-section" id="about-full">
-      <div class="section-inner">
-        <h2 class="section-heading">About Me</h2>
-        <div class="about-grid">
-          <div class="about-card">
-            <h3 class="about-title">Who I Am</h3>
-            <p class="about-text">I'm a passionate tech engineer based in Tangerang, Indonesia, with a strong focus on building clean, efficient software. My journey in tech started with curiosity and has evolved into a commitment to continuous learning and growth.</p>
-          </div>
-          <div class="about-card">
-            <h3 class="about-title">Career Journey</h3>
-            <p class="about-text">From athlete to UI/UX designer, support specialist, and now software developer — my diverse background has shaped my problem-solving approach. Each role taught me valuable lessons about user experience, technical excellence, and teamwork.</p>
-          </div>
-          <div class="about-card">
-            <h3 class="about-title">My Passion</h3>
-            <p class="about-text">I'm fascinated by the intersection of technology and human experience. Whether it's web development, mobile apps, or cloud infrastructure, I'm driven by the challenge of solving real-world problems with elegant, scalable solutions.</p>
-          </div>
+      <div class="section-inner about-inner">
+        <div class="about-profile">
+          <img src="Profile.jpg" alt="Ari Rahmat" class="avatar about-avatar" />
+        </div>
+
+        <div class="about-copy">
+          <h2 class="about-name">Ari Rahmat</h2>
+          <p class="about-role">Tech Engineer</p>
+          <p class="about-summary">Aspiring Tech Engineer eager to grow in web development, mobile application development, and cloud computing. Currently building projects, learning new technologies, and strengthening problem-solving skills through practical experience.</p>
+
+          <article class="about-detail">
+            <h3 class="about-detail-heading">About Me</h3>
+            <p>I'm a tech enthusiast based in Tangerang, Indonesia, with experience spanning UI/UX design, customer support, IT operations, and cloud computing.</p>
+            <p>From competing as a fencing athlete to winning a UI/UX design scholarship at Binar Academy, working in customer-facing roles at Mekari and Sekolah.mu, and now completing AWS cloud engineering training — each step has shaped my problem-solving and communication skills.</p>
+            <p>Currently growing my skills in web development, mobile app development, and cloud computing, building practical projects along the way.</p>
+          </article>
+
+          <a href="#cv" class="btn btn-ghost download-btn">Download CV</a>
         </div>
       </div>
     </section>
