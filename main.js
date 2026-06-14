@@ -19,6 +19,15 @@ const LANG_COLORS = {
   C: '#555555',
 };
 
+const projectImages = {
+  'expense-tracker': 'Expense Tracker.png',
+  'bookbase': 'Bookbase.png',
+  'personal-notes': 'PersonalNotes.png',
+  'flutter-google-office-app': 'FlutterGoogle.png',
+  'building-a-web-server': 'WebServer.png',
+  'bookshelf-api': 'BookshelfAPI.png'
+};
+
 async function loadProjects() {
   const grid = document.getElementById('projects-grid');
   const errorEl = document.getElementById('projects-error');
@@ -44,18 +53,28 @@ async function loadProjects() {
       const desc = repo.description || 'No description provided.';
       const stars = repo.stargazers_count;
 
+      const imgSrc = projectImages[repo.name];
+      const imgHTML = imgSrc 
+        ? `<div class="project-card-img">
+             <img src="${imgSrc}" alt="${escapeHtml(repo.name)}" loading="lazy" />
+           </div>` 
+        : '';
+
       const card = document.createElement('a');
       card.href = repo.html_url;
       card.target = '_blank';
       card.rel = 'noopener noreferrer';
       card.className = 'project-card';
       card.innerHTML = `
-        <div class="project-name">${escapeHtml(repo.name)}</div>
-        <div class="project-desc">${escapeHtml(desc)}</div>
-        <div class="project-meta">
-          ${color ? `<span class="project-lang"><span class="lang-dot" style="background:${color}"></span>${escapeHtml(repo.language)}</span>` : ''}
-          ${stars > 0 ? `<span class="project-stars">★ ${stars}</span>` : ''}
-          <span class="project-link">View ↗</span>
+        ${imgHTML}
+        <div class="project-card-content">
+          <div class="project-name">${escapeHtml(repo.name)}</div>
+          <div class="project-desc">${escapeHtml(desc)}</div>
+          <div class="project-meta">
+            ${color ? `<span class="project-lang"><span class="lang-dot" style="background:${color}"></span>${escapeHtml(repo.language)}</span>` : ''}
+            ${stars > 0 ? `<span class="project-stars">★ ${stars}</span>` : ''}
+            <span class="project-link">View ↗</span>
+          </div>
         </div>
       `;
       grid.appendChild(card);

@@ -645,70 +645,111 @@ a { color: inherit; text-decoration: none; }
 }
 .projects-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 1.25rem;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-top: 2rem;
 }
+
 .project-card {
-  background: var(--card);
+  text-decoration: none;
+  color: inherit;
+  border-radius: 16px;
+  overflow: hidden;
+  padding: 0;
   border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 1.5rem;
+  background: var(--card);
+  transition: all 0.2s ease;
   display: flex;
   flex-direction: column;
-  gap: 0.6rem;
-  transition: all 0.2s ease-out;
 }
+
 .project-card:hover {
   border-color: var(--accent);
+  box-shadow: 0 8px 24px rgba(0,82,255,0.12);
   transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(0, 82, 255, 0.15);
 }
-.project-name {
-  font-family: var(--mono);
-  font-size: 0.95rem;
-  font-weight: 500;
-  color: var(--foreground);
+
+.project-card-img {
+  width: 100%;
+  height: 180px;
+  overflow: hidden;
+  flex-shrink: 0;
 }
-.project-desc {
-  font-size: 0.875rem;
-  color: var(--muted-foreground);
+
+.project-card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+  transition: transform 0.3s ease;
+}
+
+.project-card:hover .project-card-img img {
+  transform: scale(1.04);
+}
+
+.project-card-content {
+  padding: 1rem 1.25rem 1.25rem;
+  display: flex;
+  flex-direction: column;
   flex: 1;
-  line-height: 1.6;
 }
+
+.project-name {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--foreground);
+  margin-bottom: 0.5rem;
+}
+
+.project-desc {
+  font-size: 13px;
+  color: var(--muted-foreground);
+  line-height: 1.6;
+  flex: 1;
+  margin-bottom: 1rem;
+}
+
 .project-meta {
   display: flex;
   align-items: center;
-  gap: 1rem;
-  margin-top: 0.5rem;
+  justify-content: space-between;
+  margin-top: auto;
 }
+
 .project-lang {
-  font-size: 0.78rem;
-  font-family: var(--mono);
-  color: var(--muted-foreground);
   display: flex;
   align-items: center;
-  gap: 0.35rem;
-}
-.lang-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--accent);
-  display: inline-block;
-  flex-shrink: 0;
-}
-.project-stars {
-  font-size: 0.78rem;
+  gap: 6px;
+  font-size: 12px;
   color: var(--muted-foreground);
-  font-family: var(--mono);
 }
+
+.lang-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
 .project-link {
-  margin-left: auto;
-  font-size: 0.78rem;
+  font-size: 13px;
   color: var(--accent);
   font-weight: 500;
 }
-.project-link:hover { text-decoration: underline; }
+
+@media (max-width: 768px) {
+  .projects-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .projects-grid {
+    grid-template-columns: 1fr;
+  }
+}
 
 /* SKELETON */
 .project-skeleton {
@@ -832,6 +873,98 @@ a { color: inherit; text-decoration: none; }
 }
 
 /* CONTACT */
+.certificates-section {
+  padding: 5rem 0;
+  background: var(--background);
+}
+
+.certificates-grid {
+  margin-top: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.certificate-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--card);
+  transition: all 0.2s ease;
+}
+
+.certificate-card:hover {
+  border-color: var(--accent);
+  box-shadow: 0 8px 24px rgba(0,82,255,0.1);
+  transform: translateY(-2px);
+}
+
+.certificate-icon {
+  width: 80px;
+  height: 80px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.certificate-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 4px;
+}
+
+.certificate-info {
+  flex: 1;
+}
+
+.certificate-title {
+  font-family: 'Calistoga', serif;
+  font-size: 1.1rem;
+  color: var(--foreground);
+  margin-bottom: 0.25rem;
+}
+
+.certificate-issuer {
+  font-size: 13px;
+  color: var(--accent);
+  font-family: 'JetBrains Mono', monospace;
+  margin-bottom: 0.5rem;
+}
+
+.certificate-desc {
+  font-size: 14px;
+  color: var(--muted-foreground);
+  line-height: 1.6;
+  margin-bottom: 0.75rem;
+}
+
+.certificate-link {
+  font-size: 13px;
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 500;
+  transition: opacity 0.2s;
+}
+
+.certificate-link:hover {
+  opacity: 0.7;
+}
+
+@media (max-width: 480px) {
+  .certificate-card {
+    flex-direction: column;
+  }
+  .certificate-icon {
+    width: 60px;
+    height: 60px;
+  }
+}
+
 .contact-section {
   border-top: 1px solid rgba(255, 255, 255, 0.08);
   padding: 6rem 2rem;
