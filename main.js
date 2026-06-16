@@ -20,7 +20,7 @@ const LANG_COLORS = {
 };
 
 const projectImages = {
-  'ssh-server-configuration-dicoding': 'ssh-server-configuration-dicoding/linux.jpg',
+  'ssh-server-configuration-dicoding': 'linux.jpg',
   'expense-tracker': 'Expense Tracker.png',
   'bookbase': 'Bookbase.png',
   'personal-notes': 'PersonalNotes.png',
@@ -42,7 +42,7 @@ async function loadProjects() {
     sshCard.className = 'project-card';
     sshCard.innerHTML = `
       <div class="project-card-img">
-        <img src="ssh-server-configuration-dicoding/linux.jpg" alt="ssh-server-configuration-dicoding" loading="lazy" />
+        <img src="linux.jpg" alt="ssh-server-configuration-dicoding" loading="lazy" />
       </div>
       <div class="project-card-content">
         <div class="project-name">ssh-server-configuration-dicoding</div>
@@ -61,7 +61,7 @@ async function loadProjects() {
     if (!res.ok) throw new Error('GitHub API error');
     const repos = await res.json();
 
-    const filtered = repos.filter(r => !r.fork && r.name !== 'ios-book-discovery-app').slice(0, 9);
+    const filtered = repos.filter(r => !r.fork && r.name !== 'ios-book-discovery-app' && r.name !== 'ssh-server-configuration-dicoding').slice(0, 9);
 
     if (filtered.length === 0) {
       const noReposMsg = document.createElement('p');
