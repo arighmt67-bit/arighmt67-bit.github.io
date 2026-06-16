@@ -29,84 +29,35 @@ const projectImages = {
   'bookshelf-api': 'BookshelfAPI.png'
 };
 
-async function loadProjects() {
+function loadProjects() {
   const grid = document.getElementById('projects-grid');
-  const errorEl = document.getElementById('projects-error');
+  if (!grid) return;
 
-  try {
-    // Create and insert the manual SSH card first
-    const sshCard = document.createElement('a');
-    sshCard.href = 'https://github.com/arighmt67-bit/ssh-server-configuration-dicoding';
-    sshCard.target = '_blank';
-    sshCard.rel = 'noopener noreferrer';
-    sshCard.className = 'project-card';
-    sshCard.innerHTML = `
-      <div class="project-card-img">
-        <img src="linux.jpg" alt="ssh-server-configuration-dicoding" loading="lazy" />
+  const sshCard = document.createElement('a');
+  sshCard.href = 'https://github.com/arighmt67-bit/ssh-server-configuration-dicoding';
+  sshCard.target = '_blank';
+  sshCard.rel = 'noopener noreferrer';
+  sshCard.className = 'project-card';
+  sshCard.innerHTML = `
+    <div class="project-card-img">
+      <img src="linux.jpg" alt="ssh-server-configuration-dicoding" loading="lazy" />
+    </div>
+    <div class="project-card-content">
+      <div class="project-name">ssh-server-configuration-dicoding</div>
+      <div class="project-desc">Proyek akhir dari kelas Menjadi Linux System Administrator (Dicoding).</div>
+      <div class="project-meta">
+        <span class="project-lang"><span class="lang-dot" style="background:#89E051"></span>Shell</span>
+        <span class="project-link">View ↗</span>
       </div>
-      <div class="project-card-content">
-        <div class="project-name">ssh-server-configuration-dicoding</div>
-        <div class="project-desc">Proyek akhir dari kelas Menjadi Linux System Administrator (Dicoding).</div>
-        <div class="project-meta">
-          <span class="project-lang"><span class="lang-dot" style="background:#89E051"></span>Shell</span>
-          <span class="project-link">View ↗</span>
-        </div>
-      </div>
-    `;
+    </div>
+  `;
+
+  // Insert SSH card as the SECOND card (after Let's Talk)
+  const firstCard = grid.querySelector('.project-card');
+  if (firstCard && firstCard.nextSibling) {
+    grid.insertBefore(sshCard, firstCard.nextSibling);
+  } else {
     grid.appendChild(sshCard);
-
-    const res = await fetch(
-      `https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=updated&per_page=12`
-    );
-    if (!res.ok) throw new Error('GitHub API error');
-    const repos = await res.json();
-
-    const filtered = repos.filter(r => !r.fork && r.name !== 'ios-book-discovery-app' && r.name !== 'ssh-server-configuration-dicoding').slice(0, 9);
-
-    if (filtered.length === 0) {
-      const noReposMsg = document.createElement('p');
-      noReposMsg.style.color = 'var(--text-muted)';
-      noReposMsg.style.fontSize = '0.875rem';
-      noReposMsg.textContent = 'No public repositories found.';
-      grid.appendChild(noReposMsg);
-      return;
-    }
-
-    filtered.forEach(repo => {
-      const color = repo.language ? (LANG_COLORS[repo.language] || '#888') : null;
-      const desc = repo.description || 'No description provided.';
-      const stars = repo.stargazers_count;
-
-      const imgSrc = projectImages[repo.name];
-      const imgHTML = imgSrc 
-        ? `<div class="project-card-img">
-             <img src="${imgSrc}" alt="${escapeHtml(repo.name)}" loading="lazy" />
-           </div>` 
-        : '';
-
-      const card = document.createElement('a');
-      card.href = repo.html_url;
-      card.target = '_blank';
-      card.rel = 'noopener noreferrer';
-      card.className = 'project-card';
-      card.innerHTML = `
-        ${imgHTML}
-        <div class="project-card-content">
-          <div class="project-name">${escapeHtml(repo.name)}</div>
-          <div class="project-desc">${escapeHtml(desc)}</div>
-          <div class="project-meta">
-            ${color ? `<span class="project-lang"><span class="lang-dot" style="background:${color}"></span>${escapeHtml(repo.language)}</span>` : ''}
-            ${stars > 0 ? `<span class="project-stars">★ ${stars}</span>` : ''}
-            <span class="project-link">View ↗</span>
-          </div>
-        </div>
-      `;
-      grid.appendChild(card);
-    });
-
-  } catch (err) {
-    grid.innerHTML = '';
-    errorEl.hidden = false;
   }
 }
 
