@@ -20,6 +20,7 @@ const LANG_COLORS = {
 };
 
 const projectImages = {
+  'ssh-server-configuration-dicoding': 'ssh-server-configuration-dicoding/linux.jpg',
   'expense-tracker': 'Expense Tracker.png',
   'bookbase': 'Bookbase.png',
   'personal-notes': 'PersonalNotes.png',
@@ -33,6 +34,27 @@ async function loadProjects() {
   const errorEl = document.getElementById('projects-error');
 
   try {
+    // Create and insert the manual SSH card first
+    const sshCard = document.createElement('a');
+    sshCard.href = 'https://github.com/arighmt67-bit/ssh-server-configuration-dicoding';
+    sshCard.target = '_blank';
+    sshCard.rel = 'noopener noreferrer';
+    sshCard.className = 'project-card';
+    sshCard.innerHTML = `
+      <div class="project-card-img">
+        <img src="ssh-server-configuration-dicoding/linux.jpg" alt="ssh-server-configuration-dicoding" loading="lazy" />
+      </div>
+      <div class="project-card-content">
+        <div class="project-name">ssh-server-configuration-dicoding</div>
+        <div class="project-desc">Proyek akhir dari kelas Menjadi Linux System Administrator (Dicoding).</div>
+        <div class="project-meta">
+          <span class="project-lang"><span class="lang-dot" style="background:#89E051"></span>Shell</span>
+          <span class="project-link">View ↗</span>
+        </div>
+      </div>
+    `;
+    grid.appendChild(sshCard);
+
     const res = await fetch(
       `https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=updated&per_page=12`
     );
@@ -41,10 +63,12 @@ async function loadProjects() {
 
     const filtered = repos.filter(r => !r.fork && r.name !== 'ios-book-discovery-app').slice(0, 9);
 
-    grid.innerHTML = ''; 
-
     if (filtered.length === 0) {
-      grid.innerHTML = '<p style="color:var(--text-muted);font-size:0.875rem">No public repositories found.</p>';
+      const noReposMsg = document.createElement('p');
+      noReposMsg.style.color = 'var(--text-muted)';
+      noReposMsg.style.fontSize = '0.875rem';
+      noReposMsg.textContent = 'No public repositories found.';
+      grid.appendChild(noReposMsg);
       return;
     }
 
