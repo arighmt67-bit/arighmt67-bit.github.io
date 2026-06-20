@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800" role="img" aria-label="Jagat Tani placeholder image">
+  <defs>
+    <linearGradient id="g" x1="0" x2="1">
+      <stop offset="0" stop-color="#e6fffa" />
+      <stop offset="1" stop-color="#e6f7ff" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#g)" />
+  <g transform="translate(80,160)" fill="#05445E" font-family="DM Sans, Arial, sans-serif">
+    <rect x="0" y="0" width="1040" height="480" rx="12" fill="#ffffff" opacity="0.85" />
+    <text x="40" y="80" font-size="48" font-weight="700">Jagat Tani</text>
+    <text x="40" y="140" font-size="20" fill="#0b6b6b">Mobile app for digital agriculture management</text>
+    <g transform="translate(40,200)" fill="#0b6b6b">
+      <rect x="0" y="0" width="220" height="40" rx="8" fill="#e6fffa" />
+      <text x="16" y="26" font-size="16">Flutter</text>
+      <rect x="240" y="0" width="220" height="40" rx="8" fill="#e6f7ff" />
+      <text x="256" y="26" font-size="16">Firebase</text>
+      <rect x="480" y="0" width="220" height="40" rx="8" fill="#f0f8ff" />
+      <text x="496" y="26" font-size="16">REST API</text>
+    </g>
+  </g>
+</svg>
